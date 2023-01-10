@@ -30,14 +30,14 @@ public class TheReader extends JdbcCursorItemReader<CustomerModel> implements It
         setDataSource(oracleDataSource);
         System.out.println("hhhh");
         setSql("SELECT * from dataset100k");
-        setFetchSize(100);
+        setFetchSize(1000);
         setRowMapper(new CustomerRowMapper());
     }
 
     public class CustomerRowMapper implements RowMapper<CustomerModel> {
         @Override
         public CustomerModel mapRow(ResultSet rs, int rowNum) throws SQLException {
-            System.out.println("I AM HEEERE");
+//            System.out.println("I AM HEEERE");
             CustomerModel customerModel = new CustomerModel();
             //customerModel.setId(rs.getInt("ID"));
             customerModel.setUser_id(rs.getInt("USER_ID"));

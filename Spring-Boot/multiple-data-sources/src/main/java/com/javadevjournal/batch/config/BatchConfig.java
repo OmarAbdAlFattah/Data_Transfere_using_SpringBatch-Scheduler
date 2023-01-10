@@ -86,7 +86,7 @@ public class BatchConfig {
     @Bean
     public Step createStep() {
         TaskletStep step = new StepBuilder("MyStep", jobRepository)
-                .<CustomerModel, ProductModel>chunk(1, platformTransactionManager)
+                .<CustomerModel, ProductModel>chunk(1000, platformTransactionManager)
                 .reader(theReader)
                 .processor(theProcessor)
                 .writer(theWriter)
