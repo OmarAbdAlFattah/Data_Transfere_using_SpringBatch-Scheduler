@@ -21,6 +21,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.util.HashMap;
+
 //import static java.util.ServiceLoader.fail;
 
 //import javax.sql.DataSource;
@@ -48,25 +50,25 @@ public class BatchConfig {
     @Bean
     public Job createJob(){
 
-
-        String jobName = "Job" + System.currentTimeMillis();
+        Long millis=System.currentTimeMillis();
+        String jobName = "Job-";
         Job job = new JobBuilder(jobName, jobRepository)
                 .incrementer(new RunIdIncrementer()).flow(createStep()).end().build();
 
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("time",System.currentTimeMillis()).toJobParameters();
 
-        JobExecution firstExecution = null;
-        try {
-            firstExecution = jobLauncher.run(job, jobParameters);
-        } catch (JobExecutionAlreadyRunningException e) {
-            throw new RuntimeException(e);
-        } catch (JobRestartException e) {
-            throw new RuntimeException(e);
-        } catch (JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
-            throw new RuntimeException(e);
-        }
-        jobRepository.update(firstExecution);
+   //     JobExecution firstExecution = null;
+//        try {
+//            firstExecution = jobLauncher.run(job, jobParameters);
+//        } catch (JobExecutionAlreadyRunningException e) {
+//            throw new RuntimeException(e);
+//        } catch (JobRestartException e) {
+//            throw new RuntimeException(e);
+//        } catch (JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
+//            throw new RuntimeException(e);
+//        }
+//        jobRepository.update(firstExecution);
 
         try {
             jobRepository.createJobExecution(jobName, jobParameters);
@@ -78,8 +80,6 @@ public class BatchConfig {
         } catch (JobExecutionAlreadyRunningException e) {
             throw new RuntimeException(e);
         }
-
-
         return job;
     }
 
