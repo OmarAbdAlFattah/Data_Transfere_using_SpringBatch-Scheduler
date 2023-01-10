@@ -1,5 +1,6 @@
 package com.javadevjournal.product.config;
 
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -13,31 +14,29 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
+//import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "productEntityManagerFactory",
-        transactionManagerRef = "productTransactionManager",
+        entityManagerFactoryRef = "entityManagerFactory",
+        transactionManagerRef = "transactionManager",
         basePackages = {"com.javadevjournal.product.repo"}
 )
 
 public class ProductConfig {
-
-
-        @Bean(name = "productDataSource")
+        @Bean(name = "dataSource")
         @ConfigurationProperties(prefix = "db2.datasource")
         public DataSource dataSource() {
             return DataSourceBuilder.create().build();
         }
 
-        @Bean(name = "productEntityManagerFactory")
+        @Bean(name = "entityManagerFactory")
         public LocalContainerEntityManagerFactoryBean
         barEntityManagerFactory(
                 EntityManagerFactoryBuilder builder,
-                @Qualifier("productDataSource") DataSource dataSource
+                @Qualifier("dataSource") DataSource dataSource
         ) {
             return
                     builder
@@ -47,11 +46,11 @@ public class ProductConfig {
                             .build();
         }
 
-        @Bean(name = "productTransactionManager")
-        public PlatformTransactionManager productTransactionManager(
-                @Qualifier("productEntityManagerFactory") EntityManagerFactory
-                        productEntityManagerFactory
+        @Bean(name = "transactionManager")
+        public PlatformTransactionManager transactionManager(
+                @Qualifier("entityManagerFactory") EntityManagerFactory
+                        entityManagerFactory
         ) {
-            return new JpaTransactionManager(productEntityManagerFactory);
+            return new JpaTransactionManager(entityManagerFactory);
         }
 }
