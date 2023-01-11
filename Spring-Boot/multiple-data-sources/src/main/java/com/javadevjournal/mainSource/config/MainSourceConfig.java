@@ -1,8 +1,7 @@
-package com.javadevjournal.customer.config;
+package com.javadevjournal.mainSource.config;
 
 
 import jakarta.persistence.EntityManagerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -23,9 +22,9 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "oracleEntityManagerFactory",
         transactionManagerRef = "oracleTransactionManager",
-        basePackages = {"com.javadevjournal.customer.repo"}
+        basePackages = {"com.javadevjournal.mainSource.repo"}
 )
-public class CustomerConfig {
+public class MainSourceConfig {
 
     @Primary
     @Bean(name = "oracleDataSource")
@@ -43,7 +42,7 @@ public class CustomerConfig {
     ) {
         return builder
                 .dataSource(dataSource)
-                .packages("com.javadevjournal.customer.data")
+                .packages("com.javadevjournal.mainSource.data")
 //                .persistenceUnit("db1")
                 .build();
     }

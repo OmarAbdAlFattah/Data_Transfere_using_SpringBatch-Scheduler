@@ -1,27 +1,26 @@
 package com.javadevjournal;
 
-import com.javadevjournal.customer.data.CustomerModel;
-import com.javadevjournal.customer.repo.CustomerRepository;
-import com.javadevjournal.product.data.ProductModel;
-import com.javadevjournal.product.repo.ProductRepository;
+import com.javadevjournal.mainSource.repo.MainSourceRepository;
+import com.javadevjournal.destination.data.DestModel;
+import com.javadevjournal.destination.repo.DestRepository;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TheWriter implements ItemWriter<ProductModel> {
-    private final CustomerRepository customerRepository;
-    private final ProductRepository productRepository;
+public class TheWriter implements ItemWriter<DestModel> {
+    private final MainSourceRepository mainSourceRepository;
+    private final DestRepository destRepository;
 
-    public TheWriter(CustomerRepository customerRepository,
-                     ProductRepository productRepository) {
-        this.customerRepository = customerRepository;
-        this.productRepository = productRepository;
+    public TheWriter(MainSourceRepository mainSourceRepository,
+                     DestRepository destRepository) {
+        this.mainSourceRepository = mainSourceRepository;
+        this.destRepository = destRepository;
     }
 
     @Override
-    public void write(Chunk<? extends ProductModel> chunk) throws Exception {
-        for (ProductModel pm :
+    public void write(Chunk<? extends DestModel> chunk) throws Exception {
+        for (DestModel pm :
                 chunk) {
             System.out.println(
                     "MyWriter  : Writing data  :"
@@ -30,7 +29,7 @@ public class TheWriter implements ItemWriter<ProductModel> {
                     + pm.getRating()  + " : "
                     + pm.getTime_stamp()
             );
-            productRepository.save(pm);
+            destRepository.save(pm);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.javadevjournal.product.data;
+package com.javadevjournal.destination.data;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-public class ProductModel {
+public class DestModel {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class ProductModel {
 
 //    protected ProductModel() {}
 
-    public ProductModel(int user_id, int item_id, int rating, int time_stamp) {
+    public DestModel(int user_id, int item_id, int rating, int time_stamp) {
         this.user_id = user_id;
         this.item_id = item_id;
         this.rating = rating;

@@ -1,17 +1,17 @@
 package com.javadevjournal;
 
-import com.javadevjournal.customer.data.CustomerModel;
-import com.javadevjournal.product.data.ProductModel;
+import com.javadevjournal.mainSource.data.MainSourceModel;
+import com.javadevjournal.destination.data.DestModel;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TheProcessor implements ItemProcessor<CustomerModel, ProductModel> {
+public class TheProcessor implements ItemProcessor<MainSourceModel, DestModel> {
 
     @Override
-    public ProductModel process(CustomerModel customerModel) throws Exception {
+    public DestModel process(MainSourceModel mainSourceModel) throws Exception {
 
-        System.out.println("MyBatchProcessor : Processing data : "+ customerModel);
-        return new ProductModel(customerModel.getUser_id(), customerModel.getItem_id(), customerModel.getRating(), customerModel.getTime_stamp());
+        System.out.println("MyBatchProcessor : Processing data : "+ mainSourceModel);
+        return new DestModel(mainSourceModel.getUser_id(), mainSourceModel.getItem_id(), mainSourceModel.getRating(), mainSourceModel.getTime_stamp());
     }
 }

@@ -3,8 +3,8 @@ package com.javadevjournal.batch.config;
 import com.javadevjournal.TheProcessor;
 import com.javadevjournal.TheReader;
 import com.javadevjournal.TheWriter;
-import com.javadevjournal.customer.data.CustomerModel;
-import com.javadevjournal.product.data.ProductModel;
+import com.javadevjournal.mainSource.data.MainSourceModel;
+import com.javadevjournal.destination.data.DestModel;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -21,8 +21,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import java.util.HashMap;
-
 //import static java.util.ServiceLoader.fail;
 
 //import javax.sql.DataSource;
@@ -32,6 +30,8 @@ import java.util.HashMap;
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {
+
+    public final int CHUNK_SIZE = 1000;
 
     @Autowired
     JobRepository jobRepository;
@@ -86,7 +86,7 @@ public class BatchConfig {
     @Bean
     public Step createStep() {
         TaskletStep step = new StepBuilder("MyStep", jobRepository)
-                .<CustomerModel, ProductModel>chunk(1000, platformTransactionManager)
+                .<MainSourceModel, DestModel>chunk(CHUNK_SIZE, platformTransactionManager)
                 .reader(theReader)
                 .processor(theProcessor)
                 .writer(theWriter)

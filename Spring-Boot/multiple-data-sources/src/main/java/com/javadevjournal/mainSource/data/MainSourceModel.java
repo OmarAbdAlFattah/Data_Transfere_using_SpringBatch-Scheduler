@@ -1,4 +1,4 @@
-package com.javadevjournal.customer.data;
+package com.javadevjournal.mainSource.data;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 //import javax.persistence.*;
 @Data
 @Entity
-public class CustomerModel {
+public class MainSourceModel {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -17,9 +17,9 @@ public class CustomerModel {
     private int rating;
     private int time_stamp;
 
-    public CustomerModel() {}
+    public MainSourceModel() {}
 
-    public CustomerModel(int user_id, int item_id, int rating, int time_stamp) {
+    public MainSourceModel(int user_id, int item_id, int rating, int time_stamp) {
         this.user_id = user_id;
         this.item_id = item_id;
         this.rating = rating;
