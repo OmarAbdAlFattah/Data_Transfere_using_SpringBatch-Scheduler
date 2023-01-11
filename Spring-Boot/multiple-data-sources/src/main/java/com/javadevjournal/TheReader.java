@@ -11,13 +11,15 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class TheReader extends JdbcCursorItemReader<MainSourceModel> implements ItemReader<MainSourceModel> {
     public final int fetchSize = 1000;
-    public TheReader(@Autowired DataSource oracleDataSource) {
-        setDataSource(oracleDataSource);
-        setSql("SELECT * from dataset100k");
+    public TheReader(@Autowired DataSource mysqlDataSource) {
+        setDataSource(mysqlDataSource);
+        setSql("SELECT * from destmodel");
         setFetchSize(fetchSize);
         setRowMapper(new CustomerRowMapper());
     }
@@ -31,9 +33,17 @@ public class TheReader extends JdbcCursorItemReader<MainSourceModel> implements 
             mainSourceModel.setUser_id(rs.getInt("USER_ID"));
             mainSourceModel.setItem_id(rs.getInt("ITEM_ID"));
             mainSourceModel.setRating(rs.getInt("RATING"));
-            mainSourceModel.setTime_stamp(rs.getInt("TIMESTAMP"));
+            mainSourceModel.setTime_stamp(rs.getInt("TIME_STAMP"));
+            System.out.println("This read started on " + printCurrentTime());
 
             return mainSourceModel;
         }
+    }
+
+    public String printCurrentTime () {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String time = dtf.format(now);
+        return time;
     }
 }

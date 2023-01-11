@@ -20,25 +20,25 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "oracleEntityManagerFactory",
-        transactionManagerRef = "oracleTransactionManager",
+        entityManagerFactoryRef = "mysqlEntityManagerFactory",
+        transactionManagerRef = "mysqlTransactionManager",
         basePackages = {"com.javadevjournal.mainSource.repo"}
 )
 public class MainSourceConfig {
 
     @Primary
-    @Bean(name = "oracleDataSource")
+    @Bean(name = "mysqlDataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource oracleDataSource() {
+    public DataSource mainDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Primary
-    @Bean(name = "oracleEntityManagerFactory")
+    @Bean(name = "mysqlEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean
     entityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier("oracleDataSource") DataSource dataSource
+            @Qualifier("mysqlDataSource") DataSource dataSource
     ) {
         return builder
                 .dataSource(dataSource)
@@ -48,11 +48,11 @@ public class MainSourceConfig {
     }
 
     @Primary
-    @Bean(name = "oracleTransactionManager")
-    public PlatformTransactionManager oracleTransactionManager(
-            @Qualifier("oracleEntityManagerFactory") EntityManagerFactory
-                    oracleEntityManagerFactory
+    @Bean(name = "mysqlTransactionManager")
+    public PlatformTransactionManager mainTransactionManager(
+            @Qualifier("mysqlEntityManagerFactory") EntityManagerFactory
+                    mainEntityManagerFactory
     ) {
-        return new JpaTransactionManager(oracleEntityManagerFactory);
+        return new JpaTransactionManager(mainEntityManagerFactory);
     }
 }

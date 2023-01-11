@@ -7,6 +7,9 @@ import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class TheWriter implements ItemWriter<DestModel> {
     private final MainSourceRepository mainSourceRepository;
@@ -22,6 +25,7 @@ public class TheWriter implements ItemWriter<DestModel> {
     public void write(Chunk<? extends DestModel> chunk) throws Exception {
         for (DestModel pm :
                 chunk) {
+            System.out.println("This Write stated on " + printCurrentTime());
             System.out.println(
                     "MyWriter  : Writing data  :"
                     + pm.getUser_id() + " : "
@@ -31,5 +35,12 @@ public class TheWriter implements ItemWriter<DestModel> {
             );
             destRepository.save(pm);
         }
+    }
+
+    public String printCurrentTime () {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String time = dtf.format(now);
+        return time;
     }
 }
