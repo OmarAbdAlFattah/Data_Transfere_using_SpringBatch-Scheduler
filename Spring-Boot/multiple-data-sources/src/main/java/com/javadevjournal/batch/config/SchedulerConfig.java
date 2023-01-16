@@ -25,7 +25,8 @@ public class SchedulerConfig {
     BatchConfig batchConfig;
 
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-
+    //0 0 22 1/1 * ? *
+    //cron expression for scheduling everyday, 10 PM.
     @Scheduled(fixedDelay = 5000, initialDelay = 1000)
     public void scheduleByFixedRate() throws Exception {
         System.out.println("Batch job starting");
